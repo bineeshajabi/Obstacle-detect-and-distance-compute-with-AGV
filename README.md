@@ -25,15 +25,8 @@ Reads the RGB and depth camera topics, runs HSV color segmentation per frame, fi
 ## Setup
 
 ```bash
-# dependencies
-sudo apt install ros-jazzy-ros-gz-bridge \
-                 ros-jazzy-ros-gz-sim
-
-pip install opencv-python numpy
-
-# build
-cd ~/your_ws
-colcon build --packages-select hsv_obstacle_detection
+cd ~/obj_hsv_ws
+colcon build 
 source install/setup.bash
 ```
 
@@ -43,14 +36,13 @@ source install/setup.bash
 
 ```bash
 # terminal 1 — simulation
-ros2 launch your_bringup gazebo.launch.py
+ros2 launch obj_detect agv_world.launch.py
 
-# terminal 2 — gz bridge
-ros2 run ros_gz_bridge parameter_bridge \
-  --ros-args -p config_file:=path/to/gz_bridge.yaml
+# terminal 2 — single colour detection
+ros2 run obj_detect dist_hsv
 
-# terminal 3 — detection node
-ros2 run hsv_obstacle_detection multi_color_detector
+# terminal 3 — multiple colour detection node
+ros2 run obj_detect dist_multiple_hsv
 ```
 
 ---
@@ -67,7 +59,7 @@ ros2 run hsv_obstacle_detection multi_color_detector
 
 ## Adding colors
 
-Edit the `color_ranges` dict in `multi_color_detector.py`:
+Edit the `color_ranges` dict in `hsv_obj_multiple.py`:
 
 ```python
 self.color_ranges = {
@@ -83,14 +75,6 @@ self.color_ranges = {
     },
 }
 ```
-
-To find HSV values for a new color run the trackbar script:
-
-```bash
-python3 hsv_trackbar_calibration.py
-```
-
-Adjust sliders until the mask shows only the target object, note the values.
 
 ---
 
