@@ -36,7 +36,7 @@ source install/setup.bash
 
 ```bash
 # terminal 1 — simulation
-ros2 launch obj_detect agv_world.launch.py
+ros2 launch obj_detect tb_world.launch.py
 
 # terminal 2 — single colour detection
 ros2 run obj_detect dist_hsv
